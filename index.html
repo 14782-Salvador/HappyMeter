@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HappyMeter</title>
+    <script type="module" crossorigin src="/HappyMeter/assets/index-3L4xMu53.js"></script>
+    <link rel="stylesheet" crossorigin href="/HappyMeter/assets/index-CjxdOwVp.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <h1>HappyMeter</h1>
+        <p>Quem sorri mais genuinamente?</p>
+      </div>
+
+      <div class="names-row">
+        <input id="n1" value="Pessoa 1" placeholder="Nome esquerda" />
+        <input id="n2" value="Pessoa 2" placeholder="Nome direita" />
+      </div>
+
+      <div class="cam-wrap" id="cam-wrap">
+        <video id="vid" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="divider"></div>
+        <div class="side-label left" id="lbl1">Pessoa 1</div>
+        <div class="side-label right" id="lbl2">Pessoa 2</div>
+        <div class="countdown-overlay" id="cdown-overlay" style="display:none">
+          <div class="countdown-num" id="cdown-num">3</div>
+        </div>
+      </div>
+
+      <div class="scores-row">
+        <div class="score-card">
+          <div class="name" id="sc-name1">Pessoa 1</div>
+          <div class="val" id="sc-val1">—</div>
+          <div class="bar"><div class="bar-inner" id="sc-bar1"></div></div>
+        </div>
+        <div class="score-card">
+          <div class="name" id="sc-name2">Pessoa 2</div>
+          <div class="val" id="sc-val2">—</div>
+          <div class="bar"><div class="bar-inner" id="sc-bar2" style="background:#D85A30"></div></div>
+        </div>
+      </div>
+
+      <div class="status-msg" id="status">A carregar o detector facial...</div>
+      <button class="btn-main" id="btn-measure" disabled onclick="startMeasure()">Medir felicidade</button>
+
+      <div class="result-banner" id="result-banner" style="display:none">
+        <div class="winner" id="res-winner"></div>
+        <div class="subtitle" id="res-sub"></div>
+      </div>
+    </div>
+  </body>
+</html>
