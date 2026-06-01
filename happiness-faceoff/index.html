@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HappyMeter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <img src="/emoji-feliz-ficando-triste-emoticon-feliz-ficando-triste.png" class="hero-emoji" alt="smile" />
+        <h1>HappyMeter</h1>
+        <p>Quem sorri mais genuinamente?</p>
+      </div>
+
+      <div class="names-row">
+        <input id="n1" value="Pessoa 1" placeholder="Nome esquerda" />
+        <input id="n2" value="Pessoa 2" placeholder="Nome direita" />
+      </div>
+
+      <div class="cam-wrap">
+        <video id="vid" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="divider"></div>
+        <div class="side-label left" id="lbl1">Pessoa 1</div>
+        <div class="side-label right" id="lbl2">Pessoa 2</div>
+        <div class="countdown-overlay" id="cdown-overlay" style="display:none">
+          <div class="countdown-num" id="cdown-num">3</div>
+        </div>
+      </div>
+
+      <div class="scores-row">
+        <div class="score-card">
+          <div class="name" id="sc-name1">Pessoa 1</div>
+          <div class="val" id="sc-val1">—</div>
+          <div class="bar"><div class="bar-inner" id="sc-bar1"></div></div>
+        </div>
+        <div class="score-card p2">
+          <div class="name" id="sc-name2">Pessoa 2</div>
+          <div class="val" id="sc-val2">—</div>
+          <div class="bar"><div class="bar-inner" id="sc-bar2"></div></div>
+        </div>
+      </div>
+
+      <div class="status-msg" id="status">A carregar o detector facial...</div>
+      <button class="btn-main" id="btn-measure" disabled onclick="startMeasure()">Medir felicidade</button>
+
+      <div class="result-banner" id="result-banner" style="display:none">
+        <img src="/emoji-feliz-ficando-triste-emoticon-feliz-ficando-triste.png" class="result-emoji" alt="smile" />
+        <div class="winner" id="res-winner"></div>
+        <div class="subtitle" id="res-sub"></div>
+        <div class="detail-row" id="detail-row"></div>
+      </div>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
