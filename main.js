@@ -13,8 +13,8 @@ const n1 = () => document.getElementById('n1').value || 'Pessoa 1';
 const n2 = () => document.getElementById('n2').value || 'Pessoa 2';
 
 function updateNameLabels() {
-  document.getElementById('lbl1').textContent = n1();
-  document.getElementById('lbl2').textContent = n2();
+  ['lbl1','sc-name1'].forEach(id => document.getElementById(id).textContent = n1());
+  ['lbl2','sc-name2'].forEach(id => document.getElementById(id).textContent = n2());
   document.getElementById('sc-name1').textContent = n1() + ' — ' + points.p1 + ' pts';
   document.getElementById('sc-name2').textContent = n2() + ' — ' + points.p2 + ' pts';
 }
@@ -82,7 +82,7 @@ async function liveDetect() {
   ctx.clearRect(0, 0, overlay.width, overlay.height);
   try {
     const dets = await faceapi
-      .detectAllFaces(vid, new faceapi.TinyFaceDetectorOptions({ inputSize: 416, scoreThreshold: 0.45 }))
+      .detectAllFaces(vid, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.45 }))
       .withFaceLandmarks(true)
       .withFaceExpressions();
     dets.forEach(d => {
@@ -106,7 +106,9 @@ function drawResult(winnerSide) {
   const w = overlay.width;
   const h = overlay.height;
   const mid = w / 2;
-  const leftIsWinner = winnerSide === 'left';
+
+  // invertido porque o video esta espelhado
+  const leftIsWinner = winnerSide === 'right';
 
   ctx.fillStyle = leftIsWinner ? 'rgba(0,200,80,0.35)' : 'rgba(220,50,50,0.35)';
   ctx.fillRect(0, 0, mid, h);
@@ -125,10 +127,14 @@ function drawResult(winnerSide) {
   ctx.shadowColor = 'rgba(0,0,0,0.8)';
   ctx.shadowBlur = 10;
 
+  // desespelhar o texto
+  ctx.save();
+  ctx.scale(-1, 1);
   ctx.fillStyle = leftColor;
-  ctx.fillText(leftText, mid / 2, h / 2);
+  ctx.fillText(leftText, -(mid / 2), h / 2);
   ctx.fillStyle = rightColor;
-  ctx.fillText(rightText, mid + mid / 2, h / 2);
+  ctx.fillText(rightText, -(mid + mid / 2), h / 2);
+  ctx.restore();
 
   ctx.shadowBlur = 0;
   ctx.textAlign = 'left';
@@ -155,11 +161,12 @@ window.startMeasure = async function() {
   const scores = { left: [], right: [] };
   const details = { left: { happy: [] }, right: { happy: [] } };
 
-  for (let s = 0; s < 15; s++) {
-    await sleep(140);
+  // reduzido para 8 amostras e inputSize menor = mais rapido
+  for (let s = 0; s < 8; s++) {
+    await sleep(100);
     try {
       const dets = await faceapi
-        .detectAllFaces(vid, new faceapi.TinyFaceDetectorOptions({ inputSize: 512, scoreThreshold: 0.4 }))
+        .detectAllFaces(vid, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.4 }))
         .withFaceLandmarks(true)
         .withFaceExpressions();
       const midX = vid.videoWidth / 2;
@@ -184,7 +191,6 @@ window.startMeasure = async function() {
   document.getElementById('sc-bar1').style.width = v1 + '%';
   document.getElementById('sc-bar2').style.width = v2 + '%';
 
-  // atualizar pontuação
   if (s1 !== null || s2 !== null) {
     if (Math.abs(v1 - v2) >= 5) {
       if (v1 > v2) points.p1++;
